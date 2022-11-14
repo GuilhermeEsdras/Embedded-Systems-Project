@@ -1,0 +1,1 @@
+void envia_msg(char *, char *);
