@@ -1,24 +1,9 @@
 #include "include/l_mqtt_client.h"
+#include "include/wifi_setup.h"
 
 #include <stdio.h>
-#include <stdint.h>
-#include <stddef.h>
-#include "esp_wifi.h"
-#include "esp_system.h"
-#include "nvs_flash.h"
-#include "esp_event.h"
-#include "esp_netif.h"
-#include "include/protocol_examples_common.h"
-
 #include "freertos/FreeRTOS.h"
 #include "freertos/task.h"
-#include "freertos/semphr.h"
-#include "freertos/queue.h"
-
-#include "lwip/sockets.h"
-#include "lwip/dns.h"
-#include "lwip/netdb.h"
-
 #include "esp_log.h"
 #include "mqtt_client.h"
 
@@ -28,9 +13,15 @@ void mqtt_event_handler(void * handler_agrs, esp_event_base_t base, int32_t even
     esp_mqtt_event_handle_t event = event_data;
     int msg_id;
     switch ((esp_mqtt_event_id_t) event_id) {
-        case MQTT_EVENT_CONNECTED:
+        case MQTT_EVENT_CONNECTED :
             msg_id = esp_mqtt_client_subscribe(client, "/topic/qos0", 0);
-            msg_id = esp_mqtt_client_subscribe(client, "/topic/qos1", 0);
+            ESP_LOGI("", "ESP32 se inscreve na fila /topic/qos0, MSD_ID=%d", msg_id);
+            msg_id = esp_mqtt_client_subscribe(client, "/topic/qos1", 1);
+            ESP_LOGI("", "ESP32 se inscreve na fila /topic/qos1, MSD_ID=%d", msg_id);
+            break;
+        case MQTT_EVENT_DATA :
+            printf("TOPIC=%.*s\r\n", event -> topic_len, event -> topic);
+            printf("DATA=%.*s\r\n", event -> data_len, event -> data);
             break;
         default:
             break;
@@ -38,18 +29,23 @@ void mqtt_event_handler(void * handler_agrs, esp_event_base_t base, int32_t even
 }
 
 void envia_msg(char * msg, char * topic) {
-    int msg_id = esp_mqtt_client_publish(client, * topic, * msg, 0, 1, 0);
+    int msg_id = esp_mqtt_client_publish(client, topic, msg, 0, 1, 0);
 }
 
 void mqtt_app_start(void) {
+    wifi_setup_ssdi_password("brisa-1267191", "wp0wkigs");
+    wifi_connect();
+
+    vTaskDelay(2000 / portTICK_PERIOD_MS);
+
     esp_mqtt_client_config_t mqtt_config = {
-        .host = "192.168.31.13",
+        .host = "192.168.0.16",
         .port = 1883,
         .username = "guest",
         .password = "guest"
     };
 
-    client = esp_mqtt_client_init(&mqtt_confg);
+    client = esp_mqtt_client_init(&mqtt_config);
     esp_mqtt_client_register_event(client, ESP_EVENT_ANY_ID, mqtt_event_handler, NULL);
     esp_mqtt_client_start(client);
 }
