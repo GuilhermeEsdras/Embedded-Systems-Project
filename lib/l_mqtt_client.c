@@ -1,6 +1,8 @@
 #include "include/l_mqtt_client.h"
 #include "include/wifi_setup.h"
 
+#include <string.h>
+#include <stdlib.h>
 #include <stdio.h>
 #include "freertos/FreeRTOS.h"
 #include "freertos/task.h"
@@ -12,6 +14,7 @@ esp_mqtt_client_handle_t client;
 void mqtt_event_handler(void * handler_agrs, esp_event_base_t base, int32_t event_id, void * event_data) {
     esp_mqtt_event_handle_t event = event_data;
     int msg_id;
+    char * data = (char *) malloc(event -> data_len * sizeof(char));
     switch ((esp_mqtt_event_id_t) event_id) {
         case MQTT_EVENT_CONNECTED :
             msg_id = esp_mqtt_client_subscribe(client, "/topic/qos0", 0);
@@ -20,8 +23,16 @@ void mqtt_event_handler(void * handler_agrs, esp_event_base_t base, int32_t even
             ESP_LOGI("", "ESP32 se inscreve na fila /topic/qos1, MSD_ID=%d", msg_id);
             break;
         case MQTT_EVENT_DATA :
+            for (int i = 0; i < event -> data_len; i ++) {
+                data[i] = event -> data[i];
+                data[i + 1] = 0;
+            }
+            if (strcmp(data, "123") == 0) {
+                printf("EAE\n");
+            }
             printf("TOPIC=%.*s\r\n", event -> topic_len, event -> topic);
-            printf("DATA=%.*s\r\n", event -> data_len, event -> data);
+            printf("DATA=%s\n", data);
+            free(data);
             break;
         default:
             break;
