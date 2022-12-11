@@ -11,10 +11,17 @@
 
 esp_mqtt_client_handle_t client;
 
+void get_moisture_from_mqtt(char * data) {
+    if (strcmp(data, "123") == 0) {
+        printf("EAE\n");
+    }
+}
+
 void mqtt_event_handler(void * handler_agrs, esp_event_base_t base, int32_t event_id, void * event_data) {
     esp_mqtt_event_handle_t event = event_data;
     int msg_id;
     char * data = (char *) malloc(event -> data_len * sizeof(char));
+    int * arg = event -> user_context;
     switch ((esp_mqtt_event_id_t) event_id) {
         case MQTT_EVENT_CONNECTED :
             msg_id = esp_mqtt_client_subscribe(client, "/topic/qos0", 0);
@@ -27,11 +34,11 @@ void mqtt_event_handler(void * handler_agrs, esp_event_base_t base, int32_t even
                 data[i] = event -> data[i];
                 data[i + 1] = 0;
             }
-            if (strcmp(data, "123") == 0) {
-                printf("EAE\n");
-            }
+            get_moisture_from_mqtt(data);
             printf("TOPIC=%.*s\r\n", event -> topic_len, event -> topic);
             printf("DATA=%s\n", data);
+            printf("OI: %d\n", * arg);
+            * arg = 11;
             free(data);
             break;
         default:
@@ -43,7 +50,7 @@ void envia_msg(char * msg, char * topic) {
     int msg_id = esp_mqtt_client_publish(client, topic, msg, 0, 1, 0);
 }
 
-void mqtt_app_start(void) {
+void mqtt_app_start(int * teste) {
     wifi_setup_ssdi_password("brisa-1267191", "wp0wkigs");
     wifi_connect();
 
@@ -53,7 +60,8 @@ void mqtt_app_start(void) {
         .host = "192.168.0.16",
         .port = 1883,
         .username = "guest",
-        .password = "guest"
+        .password = "guest",
+        .user_context = (void *) &teste
     };
 
     client = esp_mqtt_client_init(&mqtt_config);

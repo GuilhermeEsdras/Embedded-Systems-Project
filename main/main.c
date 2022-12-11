@@ -10,7 +10,9 @@
 
 static const char * TAG = "TAG";
 
-#define RELE_PIN 27
+#define RELE_PIN 2
+
+int is_connected = 10;
 
 // double raw_to_porcentage(int moisture) {
 //     moisture < 1200 ? return 100.00 : return 3300 - (4500 - moisture) / (330);
@@ -24,8 +26,8 @@ void app_main(void) {
 
     // configure_adc_water_level();
     // configure_adc_soil_moisture();
-    // mqtt_app_start();
-    // vTaskDelay(2000 / portTICK_PERIOD_MS);
+    mqtt_app_start(&is_connected);
+    vTaskDelay(3000 / portTICK_PERIOD_MS);
     gpio_set_direction(RELE_PIN, GPIO_MODE_OUTPUT);
     while (1) {
         // int level = get_water_level();
@@ -34,10 +36,11 @@ void app_main(void) {
         // } else {
             //int moisture = get_soil_moisture();
             ESP_LOGI(TAG, "loop");
-            rele_set_level(1);
+            printf("%d\n", is_connected);
+            //rele_set_level(1);
             //envia_msg("Oi", "/topic/qos1");
             vTaskDelay(1000 / portTICK_PERIOD_MS);
-            rele_set_level(0);
+            //rele_set_level(0);
             vTaskDelay(1000 / portTICK_PERIOD_MS);
         //}
     }
