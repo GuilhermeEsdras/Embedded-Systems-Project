@@ -11,12 +11,6 @@
 
 esp_mqtt_client_handle_t client;
 
-typedef struct Data {
-    int water_level;
-    int soil_moisture;
-    int isWaterPumpOn;
-} Data;
-
 void get_moisture_from_mqtt(char * data) {
     if (strcmp(data, "123") == 0) {
         printf("EAE\n");
@@ -34,6 +28,7 @@ void mqtt_event_handler(void * handler_agrs, esp_event_base_t base, int32_t even
             ESP_LOGI("", "ESP32 se inscreve na fila /topic/qos0, MSD_ID=%d", msg_id);
             msg_id = esp_mqtt_client_subscribe(client, "/topic/qos1", 1);
             ESP_LOGI("", "ESP32 se inscreve na fila /topic/qos1, MSD_ID=%d", msg_id);
+            arg->isConnected = 1;
             break;
         case MQTT_EVENT_DATA :
             for (int i = 0; i < event -> data_len; i ++) {
@@ -43,8 +38,6 @@ void mqtt_event_handler(void * handler_agrs, esp_event_base_t base, int32_t even
             get_moisture_from_mqtt(data);
             printf("TOPIC=%.*s\r\n", event -> topic_len, event -> topic);
             printf("DATA=%s\n", data);
-            printf("OI: %d\n", * arg->isConnected);
-            * arg->isConnected = 1;
             free(data);
             break;
         default:

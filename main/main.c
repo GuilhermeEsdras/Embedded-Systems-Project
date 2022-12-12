@@ -22,13 +22,6 @@ void rele_set_level(int level) {
     gpio_set_level(RELE_PIN, level);
 }
 
-typedef struct Data {
-    int isConnected;
-    int waterLevel;
-    int soilMoisture;
-    int isWaterPumpOn;
-} Data;
-
 Data* create_data() {
     Data* data = (Data *) malloc (sizeof(Data));
     return data;
@@ -41,8 +34,9 @@ void app_main(void) {
     Data* data = create_data();
     data->isConnected = 0;
     mqtt_app_start(data);
-    
-    vTaskDelay(3000 / portTICK_PERIOD_MS);
+    while (!data->isConnected) {
+        vTaskDelay(500 / portTICK_PERIOD_MS);
+    }
     gpio_set_direction(RELE_PIN, GPIO_MODE_OUTPUT);
     while (1) {
         // int level = get_water_level();
@@ -56,7 +50,7 @@ void app_main(void) {
             //envia_msg("Oi", "/topic/qos1");
             vTaskDelay(1000 / portTICK_PERIOD_MS);
             //rele_set_level(0);
-            vTaskDelay(1000 / portTICK_PERIOD_MS);
+            //vTaskDelay(1000 / portTICK_PERIOD_MS);
         //}
     }
 }
