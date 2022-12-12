@@ -12,7 +12,7 @@ static const char * TAG = "TAG";
 
 #define RELE_PIN 2
 
-int is_connected = 10;
+int is_connected = 0;
 
 // double raw_to_porcentage(int moisture) {
 //     moisture < 1200 ? return 100.00 : return 3300 - (4500 - moisture) / (330);

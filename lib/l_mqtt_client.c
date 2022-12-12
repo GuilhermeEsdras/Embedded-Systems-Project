@@ -21,7 +21,7 @@ void mqtt_event_handler(void * handler_agrs, esp_event_base_t base, int32_t even
     esp_mqtt_event_handle_t event = event_data;
     int msg_id;
     char * data = (char *) malloc(event -> data_len * sizeof(char));
-    int * arg = event -> user_context;
+    int * arg = (int *) event -> user_context;
     switch ((esp_mqtt_event_id_t) event_id) {
         case MQTT_EVENT_CONNECTED :
             msg_id = esp_mqtt_client_subscribe(client, "/topic/qos0", 0);
@@ -38,7 +38,7 @@ void mqtt_event_handler(void * handler_agrs, esp_event_base_t base, int32_t even
             printf("TOPIC=%.*s\r\n", event -> topic_len, event -> topic);
             printf("DATA=%s\n", data);
             printf("OI: %d\n", * arg);
-            * arg = 11;
+            * arg = 1;
             free(data);
             break;
         default:
@@ -61,7 +61,7 @@ void mqtt_app_start(int * teste) {
         .port = 1883,
         .username = "guest",
         .password = "guest",
-        .user_context = (void *) &teste
+        .user_context = (void *) teste
     };
 
     client = esp_mqtt_client_init(&mqtt_config);
