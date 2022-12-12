@@ -12,7 +12,7 @@ static const char * TAG = "TAG";
 
 #define RELE_PIN 2
 
-int is_connected = 0;
+int isConnected = 0;
 
 // double raw_to_porcentage(int moisture) {
 //     moisture < 1200 ? return 100.00 : return 3300 - (4500 - moisture) / (330);
@@ -22,11 +22,26 @@ void rele_set_level(int level) {
     gpio_set_level(RELE_PIN, level);
 }
 
+typedef struct Data {
+    int isConnected;
+    int waterLevel;
+    int soilMoisture;
+    int isWaterPumpOn;
+} Data;
+
+Data* create_data() {
+    Data* data = (Data *) malloc (sizeof(Data));
+    return data;
+}
+
 void app_main(void) {
 
     // configure_adc_water_level();
     // configure_adc_soil_moisture();
-    mqtt_app_start(&is_connected);
+    Data* data = create_data();
+    data->isConnected = 0;
+    mqtt_app_start(data);
+    
     vTaskDelay(3000 / portTICK_PERIOD_MS);
     gpio_set_direction(RELE_PIN, GPIO_MODE_OUTPUT);
     while (1) {
@@ -36,7 +51,7 @@ void app_main(void) {
         // } else {
             //int moisture = get_soil_moisture();
             ESP_LOGI(TAG, "loop");
-            printf("%d\n", is_connected);
+            printf("%d\n", isConnected);
             //rele_set_level(1);
             //envia_msg("Oi", "/topic/qos1");
             vTaskDelay(1000 / portTICK_PERIOD_MS);

@@ -11,6 +11,12 @@
 
 esp_mqtt_client_handle_t client;
 
+typedef struct Data {
+    int water_level;
+    int soil_moisture;
+    int isWaterPumpOn;
+} Data;
+
 void get_moisture_from_mqtt(char * data) {
     if (strcmp(data, "123") == 0) {
         printf("EAE\n");
@@ -20,8 +26,8 @@ void get_moisture_from_mqtt(char * data) {
 void mqtt_event_handler(void * handler_agrs, esp_event_base_t base, int32_t event_id, void * event_data) {
     esp_mqtt_event_handle_t event = event_data;
     int msg_id;
-    char * data = (char *) malloc(event -> data_len * sizeof(char));
-    int * arg = (int *) event -> user_context;
+    char *data = (char *) malloc(event -> data_len * sizeof(char));
+    Data *arg = (Data *) event -> user_context;
     switch ((esp_mqtt_event_id_t) event_id) {
         case MQTT_EVENT_CONNECTED :
             msg_id = esp_mqtt_client_subscribe(client, "/topic/qos0", 0);
@@ -37,8 +43,8 @@ void mqtt_event_handler(void * handler_agrs, esp_event_base_t base, int32_t even
             get_moisture_from_mqtt(data);
             printf("TOPIC=%.*s\r\n", event -> topic_len, event -> topic);
             printf("DATA=%s\n", data);
-            printf("OI: %d\n", * arg);
-            * arg = 1;
+            printf("OI: %d\n", * arg->isConnected);
+            * arg->isConnected = 1;
             free(data);
             break;
         default:
@@ -50,7 +56,7 @@ void envia_msg(char * msg, char * topic) {
     int msg_id = esp_mqtt_client_publish(client, topic, msg, 0, 1, 0);
 }
 
-void mqtt_app_start(int * teste) {
+void mqtt_app_start(Data* data) {
     wifi_setup_ssdi_password("brisa-1267191", "wp0wkigs");
     wifi_connect();
 
@@ -61,7 +67,7 @@ void mqtt_app_start(int * teste) {
         .port = 1883,
         .username = "guest",
         .password = "guest",
-        .user_context = (void *) teste
+        .user_context = (void *) data
     };
 
     client = esp_mqtt_client_init(&mqtt_config);
