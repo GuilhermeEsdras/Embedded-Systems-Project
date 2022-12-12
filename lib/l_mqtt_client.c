@@ -11,10 +11,8 @@
 
 esp_mqtt_client_handle_t client;
 
-void get_moisture_from_mqtt(char * data) {
-    if (strcmp(data, "123") == 0) {
-        printf("EAE\n");
-    }
+int get_moisture_from_mqtt(char * data) {
+    return atoi(data);
 }
 
 void mqtt_event_handler(void * handler_agrs, esp_event_base_t base, int32_t event_id, void * event_data) {
@@ -35,9 +33,10 @@ void mqtt_event_handler(void * handler_agrs, esp_event_base_t base, int32_t even
                 data[i] = event -> data[i];
                 data[i + 1] = 0;
             }
-            get_moisture_from_mqtt(data);
+            int moisture = get_moisture_from_mqtt(data);
             printf("TOPIC=%.*s\r\n", event -> topic_len, event -> topic);
             printf("DATA=%s\n", data);
+            printf("%d\n", moisture);
             free(data);
             break;
         default:
