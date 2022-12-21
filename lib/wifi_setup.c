@@ -32,8 +32,8 @@ void wifi_connect(void) {
 
     wifi_config_t wifi_config = {
         .sta = {
-            .ssid = "brisa-1267191",
-            .password = "wp0wkigs",
+            .ssid = "Galaxy S20 FE 5G1FF1",
+            .password = "nuvw8560",
 	        .threshold.authmode = WIFI_AUTH_WPA2_PSK,
         },
     };

@@ -11,6 +11,17 @@
 
 esp_mqtt_client_handle_t client;
 
+/*
+int get_moisture_from_mqtt(char * data) {
+    char * str_aux = strtok(data, ":");
+    if (strcmp("UMIDADE", str_aux) == 0) {
+        str_aux = strtok(NULL, ":");
+        return atoi(str_aux);
+    }
+    return 0;
+}
+*/
+
 int get_moisture_from_mqtt(char * data) {
     return atoi(data);
 }
@@ -18,26 +29,31 @@ int get_moisture_from_mqtt(char * data) {
 void mqtt_event_handler(void * handler_agrs, esp_event_base_t base, int32_t event_id, void * event_data) {
     esp_mqtt_event_handle_t event = event_data;
     int msg_id;
-    char *data = (char *) malloc(event -> data_len * sizeof(char));
-    Data *arg = (Data *) event -> user_context;
+    char * data = (char *) malloc(event -> data_len * sizeof(char));
+    char * topic = (char *) malloc(event -> topic_len & sizeof(char));
+    Data * arg = (Data *) event -> user_context;
     switch ((esp_mqtt_event_id_t) event_id) {
         case MQTT_EVENT_CONNECTED :
-            msg_id = esp_mqtt_client_subscribe(client, "/topic/qos0", 0);
-            ESP_LOGI("", "ESP32 se inscreve na fila /topic/qos0, MSD_ID=%d", msg_id);
-            msg_id = esp_mqtt_client_subscribe(client, "/topic/qos1", 1);
-            ESP_LOGI("", "ESP32 se inscreve na fila /topic/qos1, MSD_ID=%d", msg_id);
-            arg->isConnected = 1;
+            msg_id = esp_mqtt_client_subscribe(client, "/topic/umidade", 0);
+            ESP_LOGI("", "ESP32 se inscreve na fila /topic/umidade, MSD_ID=%d", msg_id);
+            arg -> isConnected = 1;
             break;
         case MQTT_EVENT_DATA :
             for (int i = 0; i < event -> data_len; i ++) {
                 data[i] = event -> data[i];
                 data[i + 1] = 0;
             }
-            int moisture = get_moisture_from_mqtt(data);
+            for (int i = 0; i < event -> topic_len; i ++) {
+                topic[i] = event -> topic[i];
+                topic[i + 1] = 0;
+            }
+            if (strcmp("/topic/umidade", topic) == 0) {
+                arg -> soilMoisture = get_moisture_from_mqtt(data);
+            }
             printf("TOPIC=%.*s\r\n", event -> topic_len, event -> topic);
             printf("DATA=%s\n", data);
-            printf("%d\n", moisture);
             free(data);
+            free(topic);
             break;
         default:
             break;
@@ -45,17 +61,17 @@ void mqtt_event_handler(void * handler_agrs, esp_event_base_t base, int32_t even
 }
 
 void envia_msg(char * msg, char * topic) {
-    int msg_id = esp_mqtt_client_publish(client, topic, msg, 0, 1, 0);
+    int msg_id = esp_mqtt_client_publish(client, topic, msg, 0, 0, 0);
 }
 
-void mqtt_app_start(Data* data) {
+void mqtt_app_start(Data * data) {
     wifi_setup_ssdi_password("brisa-1267191", "wp0wkigs");
     wifi_connect();
 
-    vTaskDelay(2000 / portTICK_PERIOD_MS);
+    vTaskDelay(4000 / portTICK_PERIOD_MS);
 
     esp_mqtt_client_config_t mqtt_config = {
-        .host = "192.168.0.16",
+        .host = "192.168.178.214",
         .port = 1883,
         .username = "guest",
         .password = "guest",
