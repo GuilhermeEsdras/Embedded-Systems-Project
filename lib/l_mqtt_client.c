@@ -1,5 +1,6 @@
 #include "include/l_mqtt_client.h"
 #include "include/wifi_setup.h"
+#include "include/utils.h"
 
 #include <string.h>
 #include <stdlib.h>
@@ -68,7 +69,7 @@ void mqtt_app_start(Data * data) {
     wifi_setup_ssdi_password("brisa-1267191", "wp0wkigs");
     wifi_connect();
 
-    vTaskDelay(4000 / portTICK_PERIOD_MS);
+    delay_s(4);
 
     esp_mqtt_client_config_t mqtt_config = {
         .host = "192.168.178.214",
