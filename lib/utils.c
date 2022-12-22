@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include "include/utils.h"
 #include "freertos/FreeRTOS.h"
+#include "freertos/task.h"
 
 int raw_to_porcentage(int val, int val_min, int val_max) {
     if (val < val_min) {

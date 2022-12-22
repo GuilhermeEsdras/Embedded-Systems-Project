@@ -20,14 +20,15 @@ Data* create_data() {
 }
 
 int ha_baixa_variacao(int val_default) {
-    int umidade_atual = raw_to_porcentage(get_soil_moisture(), MIN_MOISTURE, MAX_MOISTURE);
-    delay_s(5);
-    int umidade_nova = raw_to_porcentage(get_soil_moisture(), MIN_MOISTURE, MAX_MOISTURE);
+    int umidade_atual = get_soil_moisture();
+    delay_s(10);
+    int umidade_nova = get_soil_moisture();
+    int porcentagem_nova = raw_to_porcentage(umidade_nova, MIN_MOISTURE, MAX_MOISTURE);
     printf("%d %d %d\n", val_default, umidade_atual, umidade_nova);
-    if (umidade_nova > val_default) return 0;
+    if (porcentagem_nova > val_default) return 0;
     if (umidade_nova == 0 && umidade_atual == 0) return 1;
-    if (umidade_atual >= umidade_nova && (umidade_nova*100/umidade_atual) < 5) return 1;
-    if (umidade_atual < umidade_nova && (umidade_atual*100/umidade_nova) < 5) return 1;
+    if (umidade_atual >= umidade_nova && (umidade_nova*100/umidade_atual) > 95) return 1;
+    if (umidade_atual < umidade_nova && (umidade_atual*100/umidade_nova) > 95) return 1;
     return 0;
 }
 
@@ -39,22 +40,31 @@ void app_main(void) {
 
     configure_adc_water_level();
     configure_adc_soil_moisture();
-    configure_rele_control(RELE_PIN)
+    configure_rele_control(RELE_PIN);
     mqtt_app_start(data);
 
     while (!data -> isConnected) {
         delay_ms(500);
     }
+                        rele_set_level(1);
+                    delay_ms(700);
+                    rele_set_level(0);
+                    delay_ms(500);
 
     delay_ms(1500);
-    data -> soilMoisture = 30;
+    data -> soilMoisture = 80;
+    int hasWater = 1;
     while (1) {
         if (data -> soilMoisture != -1) {
             printf("water level %d\n", get_water_level());
             if (get_water_level() <= 0) { //trocar valor
-                envia_msg("IRRIGAMENTO:N;FALTA_AGUA:S", "/topic/status");
+                if(hasWater) {
+                    hasWater = 0;
+                    envia_msg("IRRIGAMENTO:N;FALTA_AGUA:S", "/topic/status");
+                }
             }
             else {
+                hasWater = 1;
                 printf("defaut moisture %d\n", data -> soilMoisture);
                 printf("porcentagem atual %d\n", raw_to_porcentage(get_soil_moisture(), MIN_MOISTURE, MAX_MOISTURE));
                 if (raw_to_porcentage(get_soil_moisture(), MIN_MOISTURE, MAX_MOISTURE) < (data -> soilMoisture - 5) && 

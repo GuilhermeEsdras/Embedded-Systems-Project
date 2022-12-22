@@ -72,7 +72,7 @@ void mqtt_app_start(Data * data) {
     delay_s(4);
 
     esp_mqtt_client_config_t mqtt_config = {
-        .host = "192.168.178.214",
+        .host = "192.168.158.214",
         .port = 1883,
         .username = "guest",
         .password = "guest",
