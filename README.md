@@ -15,7 +15,7 @@ Este é o projeto final da disciplina de Sistemas Embarcadas 2022.2.
   - [🧩 Diagrama de Blocos](#-diagrama-de-blocos)
   - [🔄 Fluxograma do Firmware](#-fluxograma-do-firmware)
   - [🖼️ Screenshots do Front End](#️-screenshots-do-front-end)
-  - [Imagens das Etapas de Desenvolvimento](#imagens-das-etapas-de-desenvolvimento)
+  - [👣 Imagens das Etapas de Desenvolvimento](#-imagens-das-etapas-de-desenvolvimento)
   - [👥 Participantes](#-participantes)
 
 ---
@@ -67,7 +67,7 @@ A Mini Bomba de Água RS385 opera com tensão entre 9V a 15V e permite elevaçã
 
 ## 🖼️ Screenshots do Front End
 
-## Imagens das Etapas de Desenvolvimento
+## 👣 Imagens das Etapas de Desenvolvimento
 
 <center>
   <img src="Assets/Images/development-1.png" alt="Desenvolvimento 1" width="600"/>
