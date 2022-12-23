@@ -4,7 +4,6 @@ import { Button, Label, TextInput } from "flowbite-react";
 
 const IrrigationForm = () => {
   const [umidity, setUmidity] = useState<number>();
-  const [currentPage, setCurrentPage] = useState<number>(1);
 
   const handleSendUmidity = (event: React.SyntheticEvent) => {
     event.preventDefault();

@@ -29,7 +29,7 @@ const TableRow = ({ id, status, data, umidity }: TableRowProps) => {
 };
 
 const DataTable = () => {
-  const [loading, setLoading] = useState(true);
+  // const [loading, setLoading] = useState(true);
   const [activePage, setActivePage] = useState(0);
   const [page, setPage] = useState<IrrigationPage>({
     first: true,
@@ -40,12 +40,12 @@ const DataTable = () => {
   });
 
   useEffect(() => {
-    setLoading(true);
+    // setLoading(true);
     axios
       .get(`${BASE_URL}/status/page?page=${activePage}&size=20&sort=date,desc`)
       .then((response) => {
         setPage(response.data);
-        setLoading(false);
+        // setLoading(false);
       });
   }, [activePage]);
 
