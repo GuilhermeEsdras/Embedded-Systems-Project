@@ -24,9 +24,6 @@
     /* Path Alias para caminhos absolutos */
     "paths": {
       "~/*": ["src/*"],
-      "~components/*": ["src/components/*"],
-      "~pages/*": ["src/pages/*"],
-      "~styles/*": ["src/styles/*"]
     },
 
     /* Configurações Strict Type-Checking */
