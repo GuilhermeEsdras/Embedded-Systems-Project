@@ -2,6 +2,24 @@
 
 Este é o projeto final da disciplina de Sistemas Embarcadas 2022.2.
 
+# Sumário
+
+- [Sistema de Irrigação Automática 💦🪴](#sistema-de-irrigação-automática-)
+- [Sumário](#sumário)
+  - [❕ Descrição](#-descrição)
+  - [🔌 Componentes](#-componentes)
+    - [Microcontrolador](#microcontrolador)
+    - [Sensor de Umidade do Solo Higrômetro](#sensor-de-umidade-do-solo-higrômetro)
+    - [Mini Bomba de Água](#mini-bomba-de-água)
+    - [Outros componentes](#outros-componentes)
+  - [🧩 Diagrama de Blocos](#-diagrama-de-blocos)
+  - [🔄 Fluxograma do Firmware](#-fluxograma-do-firmware)
+  - [🖼️ Screenshots do Front End](#️-screenshots-do-front-end)
+  - [Imagens das Etapas de Desenvolvimento](#imagens-das-etapas-de-desenvolvimento)
+  - [👥 Participantes](#-participantes)
+
+---
+
 ## ❕ Descrição
 
 Um sistema de irrigação automático para plantas.
@@ -10,7 +28,11 @@ Um sistema de irrigação automático para plantas.
 
 ### Microcontrolador
 
-Em nosso projeto vamos utilizar o ESP-32, modelo WROOM-32D ([datasheet](Docs/datasheets/esp32-wroom-32_datasheet_en.pdf)), principal microcontrolador utilizado na disciplina e o coração do nosso sistema.
+<center>
+  <img src="Assets/Images/esp32-wroom-32d.jpg" alt="Sensor de Umidade do Solo" width="300"/>
+</center>
+
+Em nosso projeto vamos utilizar o ESP-32, modelo WROOM-32D ([datasheet](Docs/Datasheets/esp32-wroom-32_datasheet_en.pdf)), principal microcontrolador utilizado na disciplina e o coração do nosso sistema.
 
 Ele nada mais é do que uma placa de desenvolvimento de código aberto que utiliza o chip ESP32.
 
@@ -24,7 +46,7 @@ Possui Wi-Fi e Bluetooth nativo, dessa forma, essa placa é ideal para projetos 
 
 Este Sensor de Umidade do Solo Higrômetro foi feito para detectar as variações de umidade no solo, sendo que quando o solo está seco a saída do sensor fica em estado alto (HIGH), e quando úmido em estado baixo (LOW) sua tensão de operação é de 3,3 a 5V.
 
-O mesmo consiste em 2 partes: uma sonda que entra em contato com o solo, e um pequeno módulo contendo um chip comparador LM393 ([datasheet](Docs/datasheets/Datasheet_LM393.pdf)), que vai ler os dados que vêm do sensor e enviá-los para o microcontrolador, no nosso caso, o ESP32.
+O mesmo consiste em 2 partes: uma sonda que entra em contato com o solo, e um pequeno módulo contendo um chip comparador LM393 ([datasheet](Docs/Datasheets/Datasheet_LM393.pdf)), que vai ler os dados que vêm do sensor e enviá-los para o microcontrolador, no nosso caso, o ESP32.
 
 ### Mini Bomba de Água
 
@@ -36,7 +58,15 @@ A Mini Bomba de Água RS385 opera com tensão entre 9V a 15V e permite elevaçã
 
 ## 🧩 Diagrama de Blocos
 
+<center>
+  <img src="Assets/Diagrams/diagrama-de-blocos.png" alt="Diagrama de Blocos" width="600"/>
+</center>
+
 ## 🔄 Fluxograma do Firmware
+
+<center>
+  <img src="Assets/Diagrams/fluxograma.png" alt="Fluxograma" width="600"/>
+</center>
 
 ## 🖼️ Screenshots do Front End
 
@@ -53,3 +83,7 @@ A Mini Bomba de Água RS385 opera com tensão entre 9V a 15V e permite elevaçã
 </center>
 
 ## 👥 Participantes
+
+- [Ayrton Dantas](https://github.com/AYRtonMeD)
+- [Guilherme Esdras](https://github.com/GuilhermeEsdras)
+- [José Henrique](https://github.com/Joshaby)
