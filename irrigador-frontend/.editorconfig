@@ -1,0 +1,17 @@
+# Arquivo EditorConfig no root
+root = true
+
+# Nova linha em todas as linhas com padrão Unix
+[*]
+end_of_line = lf
+insert_final_newline = true
+trim_trailing_whitespace = true
+
+# Define charset padrão
+[*]
+charset = utf-8
+
+# Identação com 2 espaços
+[*]
+indent_style = spaces
+indent_size = 2

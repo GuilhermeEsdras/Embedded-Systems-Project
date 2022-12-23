@@ -1,0 +1,78 @@
+{
+  "compileOnSave": false,
+  "compilerOptions": {
+    /* Visite https://aka.ms/tsconfig.json para saber mais sobre este arquivo */
+
+    /* Configurações básicas */
+    // Suporte de JSX em arquivos .tsx
+    "jsx": "react-jsx",
+    // Especifica a versão de destino do ECMAScript
+    "target": "ESNext",
+    // Lista de arquivos de biblioteca a serem incluídos na compilação
+    "lib": ["DOM", "DOM.Iterable", "ESNext"],
+    // Especifica o módulo de geração do código
+    "module": "ESNext",
+    // Resolve os módulos usando o estilo Node.js
+    "moduleResolution": "Node",
+
+    /* Configurações de diretórios */
+    "outDir": "dist", // Redireciona estrutura e saída para este diretório
+    "rootDir": ".", // Diretório raiz
+    "baseUrl": ".", // Url base para referência inicial nos paths
+    "typeRoots": ["node_modules/@types"], // Diretório de tipagens de módulos
+
+    /* Path Alias para caminhos absolutos */
+    "paths": {
+      "~/*": ["src/*"],
+    },
+
+    /* Configurações Strict Type-Checking */
+    // Ativa todas as opções de verificação de tipo estrito
+    "strict": true,
+
+    // Desabilita importações de namespace (import * as fs from "fs") e habilita importações no estilo CJS/AMD/UMD (import fs from "fs")
+    "esModuleInterop": false,
+
+    // Permite importações padrão de módulos sem exportação padrão
+    "allowSyntheticDefaultImports": true,
+
+    /* Configurações avançadas */
+    // Não emite saída (ou seja, não compila código, apenas executa verificação de tipo)
+    "noEmit": true,
+
+    // Permite que arquivos JavaScript sejam compilados
+    "allowJs": false,
+
+    // Inclui módulos importados com extensão .json
+    "resolveJsonModule": true,
+
+    // Emite importações incondicionalmente para arquivos não resolvidos
+    "isolatedModules": true,
+
+    // Pula a verificação de tipo de todos os arquivos de declaração
+    "skipLibCheck": true,
+
+    // Não permite referências com maiúsculas e minúsculas inconsistentes ao mesmo arquivo.
+    "forceConsistentCasingInFileNames": true,
+
+    "useDefineForClassFields": true,
+
+    /* Configurações de geração de arquivos */
+    "sourceMap": true, // Gerar arquivo .map correspondente.
+    "declaration": true, // Gerar arquivo .d.ts correspondente.
+    "noUnusedLocals": true, // Relatar erros em locais não utilizados.
+    "noUnusedParameters": true, // Relatar erros em parâmetros não utilizados.
+    "noFallthroughCasesInSwitch": true, // Relatar erros para casos de falha na instrução switch.
+    "experimentalDecorators": true, // Habilita suporte experimental para decoradores ES7.
+    "emitDecoratorMetadata": true, // Ativa o suporte experimental para emitir metadados de tipo para decoradores.
+    "incremental": true
+  },
+
+  // *** Arquivos que o TypeScript deve executar verificação de tipagem ***
+  "include": ["src", "vite.config.ts"],
+
+  // *** Arquivos para não executar verificação de tipagem ***
+  "exclude": ["build", "coverage", "public"],
+
+  "references": [{ "path": "./tsconfig.node.json" }]
+}

@@ -1,0 +1,16 @@
+/* Injeta estilos básicos do Tailwind e quaisquer estilos básicos registrados por plug-ins. */
+@import url("tailwindcss/base");
+/* @import url('./custom-base-styles.css'); */
+
+/* Injeta classes de componentes do Tailwind e quaisquer classes de componentes registradas por plug-ins. */
+@import url("tailwindcss/components");
+/* @import url('./custom-components.css'); */
+
+/* Injeta as classes utilitárias do Tailwind e quaisquer classes utilitárias registradas por plug-ins. */
+@import url("tailwindcss/utilities");
+/* @import url('./custom-utilities.css'); */
+
+/* Diretiva que controla onde o Tailwind injeta variações responsivas de utilitários. 
+Por padrão, o Tailwind normalmente os anexa ao final de sua folha de estilo. */
+@import url("tailwindcss/screens");
+/* @import url('./custom-screens.css'); */
