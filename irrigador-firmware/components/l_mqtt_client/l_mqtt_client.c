@@ -1,5 +1,6 @@
-#include "include/l_mqtt_client.h"
-#include "include/wifi_setup.h"
+#include "l_mqtt_client.h"
+#include "wifi_setup.h"
+#include "utils.h"
 
 #include <string.h>
 #include <stdlib.h>
@@ -43,13 +44,7 @@ void mqtt_event_handler(void * handler_agrs, esp_event_base_t base, int32_t even
                 data[i] = event -> data[i];
                 data[i + 1] = 0;
             }
-            for (int i = 0; i < event -> topic_len; i ++) {
-                topic[i] = event -> topic[i];
-                topic[i + 1] = 0;
-            }
-            if (strcmp("/topic/umidade", topic) == 0) {
-                arg -> soilMoisture = get_moisture_from_mqtt(data);
-            }
+            arg -> soilMoisture = get_moisture_from_mqtt(data);
             printf("TOPIC=%.*s\r\n", event -> topic_len, event -> topic);
             printf("DATA=%s\n", data);
             free(data);
@@ -68,10 +63,10 @@ void mqtt_app_start(Data * data) {
     wifi_setup_ssdi_password("brisa-1267191", "wp0wkigs");
     wifi_connect();
 
-    vTaskDelay(4000 / portTICK_PERIOD_MS);
+    delay_s(4);
 
     esp_mqtt_client_config_t mqtt_config = {
-        .host = "192.168.178.214",
+        .host = "192.168.96.214",
         .port = 1883,
         .username = "guest",
         .password = "guest",

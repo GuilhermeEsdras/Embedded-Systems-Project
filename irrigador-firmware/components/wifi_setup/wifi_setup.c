@@ -1,4 +1,4 @@
-#include "include/wifi_setup.h"
+#include "wifi_setup.h"
 
 #include <string.h>
 #include "esp_wifi.h"
