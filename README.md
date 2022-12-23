@@ -58,15 +58,12 @@ A Mini Bomba de Água RS385 opera com tensão entre 9V a 15V e permite elevaçã
 
 ## 🧩 Diagrama de Blocos
 
-<center>
-  <img src="Assets/Diagrams/diagrama-de-blocos.png" alt="Diagrama de Blocos" width="600"/>
-</center>
+
+![Diagrama de Blocos](Assets/Diagrams/diagrama-de-blocos.png)
 
 ## 🔄 Fluxograma do Firmware
 
-<center>
-  <img src="Assets/Diagrams/fluxograma.png" alt="Fluxograma" width="600"/>
-</center>
+![Fluxograma](Assets/Diagrams/fluxograma.png)
 
 ## 🖼️ Screenshots do Front End
 
