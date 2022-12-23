@@ -12,11 +12,11 @@ import org.springframework.integration.annotation.IntegrationComponentScan;
 public class IrrigadorBackendApplication {
 
 	public static void main(String[] args) {
-		//SpringApplication.run(IrrigadorBackendApplication.class, args);
-		ConfigurableApplicationContext context =
-				new SpringApplicationBuilder(IrrigadorBackendApplication.class)
-						.run(args);
-		MqttGateway gateway = context.getBean(MqttGateway.class);
-		gateway.sendToMqtt("IRRIGAMENTO:S;UMIDADE:60");
+		SpringApplication.run(IrrigadorBackendApplication.class, args);
+//		ConfigurableApplicationContext context =
+//				new SpringApplicationBuilder(IrrigadorBackendApplication.class)
+//						.run(args);
+//		MqttGateway gateway = context.getBean(MqttGateway.class);
+//		gateway.sendToMqtt("IRRIGAMENTO:S;UMIDADE:60");
 	}
 }
