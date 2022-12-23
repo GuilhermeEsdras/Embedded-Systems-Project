@@ -2,10 +2,10 @@
 
 Este é o projeto final da disciplina de Sistemas Embarcadas 2022.2.
 
-# Sumário
+## Sumário
 
 - [Sistema de Irrigação Automática 💦🪴](#sistema-de-irrigação-automática-)
-- [Sumário](#sumário)
+  - [Sumário](#sumário)
   - [❕ Descrição](#-descrição)
   - [🔌 Componentes](#-componentes)
     - [Microcontrolador](#microcontrolador)
