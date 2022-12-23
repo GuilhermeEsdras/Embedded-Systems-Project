@@ -6,7 +6,6 @@ import { Table } from "flowbite-react";
 import { BASE_URL } from "~/api/requests";
 import { IrrigationPage } from "~/types/irrigation";
 
-import LoadingBars from "../LoadingBars";
 import IrrigationPagination from "../Pagination";
 
 interface TableRowProps {
@@ -42,8 +41,15 @@ const DataTable = () => {
 
   useEffect(() => {
     setLoading(true);
-    axios
-      .get(`${BASE_URL}/status/page?page=${activePage}&size=20&sort=date,desc`)
+
+    axios({
+      method: "get",
+      url: `${BASE_URL}/status/page?page=${activePage}&sort=desc`,
+      withCredentials: false,
+      headers: {
+        "Access-Control-Allow-Origin": "*",
+      },
+    })
       .then((response) => {
         console.log(response.data);
         setPage(response.data);
@@ -92,7 +98,8 @@ const DataTable = () => {
     </>
   );
 
-  return loading ? <LoadingBars /> : tableRendered;
+  // return loading ? <LoadingBars /> : tableRendered;
+  return tableRendered;
 };
 
 export default DataTable;
