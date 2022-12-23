@@ -1,0 +1,26 @@
+# Tamanho da identação
+tabWidth = 2
+
+# Largura máxima da linha
+printWidth = 80
+
+# Ponto e vírgula em cada linha
+trailingComma = 'es5'
+
+semi = true
+
+# Aspas simples
+singleQuote = false
+
+arrowParens = 'always'
+bracketSpacing = true
+endOfLine = 'lf'
+htmlWhitespaceSensitivity = 'ignore'
+insertPragma = false
+jsxSingleQuote = false
+proseWrap = 'always'
+quoteProps = 'as-needed'
+requirePragma = false
+useTabs = false
+vueIndentScriptAndStyle = false
+embeddedLanguageFormatting = 'off'
