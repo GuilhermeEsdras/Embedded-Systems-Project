@@ -13,6 +13,7 @@
 #define RELE_PIN 27
 #define MAX_MOISTURE 4095
 #define MIN_MOISTURE 1550
+#define MIN_WATER_LEVEL 135
 
 Data* create_data() {
     Data* data = (Data *) malloc (sizeof(Data));
@@ -42,22 +43,20 @@ void app_main(void) {
     configure_adc_soil_moisture();
     configure_rele_control(RELE_PIN);
     mqtt_app_start(data);
+    //setar botão
 
     while (!data -> isConnected) {
         delay_ms(500);
     }
-                        rele_set_level(1);
-                    delay_ms(700);
-                    rele_set_level(0);
-                    delay_ms(500);
 
     delay_ms(1500);
-    data -> soilMoisture = 80;
+    //while para enquanto o botão estiver ligado continuar jogando água
+    //data -> soilMoisture = 80;
     int hasWater = 1;
     while (1) {
         if (data -> soilMoisture != -1) {
             printf("water level %d\n", get_water_level());
-            if (get_water_level() <= 0) { //trocar valor
+            if (get_water_level() <= MIN_WATER_LEVEL) {
                 if(hasWater) {
                     hasWater = 0;
                     envia_msg("IRRIGAMENTO:N;FALTA_AGUA:S", "/topic/status");
