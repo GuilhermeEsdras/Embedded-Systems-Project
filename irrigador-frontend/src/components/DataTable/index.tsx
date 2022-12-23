@@ -5,7 +5,6 @@ import { Table } from "flowbite-react";
 
 import { BASE_URL } from "~/api/requests";
 import { IrrigationPage } from "~/types/irrigation";
-import { formatLocalDate } from "~/utils/format";
 
 import LoadingBars from "../LoadingBars";
 import IrrigationPagination from "../Pagination";
@@ -59,9 +58,7 @@ const DataTable = () => {
     setActivePage(index);
   };
 
-  return loading ? (
-    <LoadingBars />
-  ) : (
+  const tableRendered = (
     <>
       <Table hoverable={true}>
         <Table.Head>
@@ -71,14 +68,14 @@ const DataTable = () => {
           <Table.HeadCell>Umidade</Table.HeadCell>
         </Table.Head>
         <Table.Body className="divide-y">
-          {/* <TableRow
+          <TableRow
             key={1}
             data="22/12/2022"
             id={1}
             status="Irrigamento feito com sucesso"
             umidity={50}
-          /> */}
-          {page.content?.map((pageContent) => {
+          />
+          {/* {page.content?.map((pageContent) => {
             return (
               <TableRow
                 key={pageContent.id}
@@ -88,12 +85,14 @@ const DataTable = () => {
                 umidity={pageContent.umitidy}
               />
             );
-          })}
+          })} */}
         </Table.Body>
       </Table>
       <IrrigationPagination page={page} onPageChange={changePage} />
     </>
   );
+
+  return loading ? <LoadingBars /> : tableRendered;
 };
 
 export default DataTable;

@@ -4,7 +4,7 @@ Este é o projeto final da disciplina de Sistemas Embarcadas 2022.2.
 
 ## Sumário
 
-- [Sistema de Irrigação Automática �🪴](#sistema-de-irrigação-automática-)
+- [Sistema de Irrigação Automática 💧🪴](#sistema-de-irrigação-automática-)
   - [Sumário](#sumário)
   - [❕ Descrição](#-descrição)
   - [🔌 Componentes](#-componentes)
@@ -14,7 +14,7 @@ Este é o projeto final da disciplina de Sistemas Embarcadas 2022.2.
     - [Outros componentes](#outros-componentes)
   - [🧩 Diagrama de Blocos](#-diagrama-de-blocos)
   - [🔄 Fluxograma do Firmware](#-fluxograma-do-firmware)
-  - [🖼️ Screenshots do Front End](#️-screenshots-do-front-end)
+  - [🖼️ Preview do Front End](#️-preview-do-front-end)
   - [👣 Imagens das Etapas de Desenvolvimento](#-imagens-das-etapas-de-desenvolvimento)
   - [👥 Participantes](#-participantes)
 
@@ -65,7 +65,11 @@ A Mini Bomba de Água RS385 opera com tensão entre 9V a 15V e permite elevaçã
 
 ![Fluxograma](Assets/Diagrams/fluxograma.png)
 
-## 🖼️ Screenshots do Front End
+## 🖼️ Preview do Front End
+
+<center>
+  <img src="Assets/Images/frontend-ss.png" alt="Front End Screenshot" width="300"/>
+</center>
 
 ## 👣 Imagens das Etapas de Desenvolvimento
 
