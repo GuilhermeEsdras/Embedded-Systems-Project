@@ -1,8 +1,7 @@
 {
   "prettier.configPath": "./.prettierrc.toml",
   "editor.codeActionsOnSave": {
-    "source.fixAll.eslint": true,
-    "source.organizeImports": true,
+    "source.fixAll.eslint": true
   },
   "files.associations": {
     "*.css": "tailwindcss"
@@ -12,6 +11,5 @@
   },
   "tailwindCSS.includeLanguages": {
     "plaintext": "html"
-  },
-  "cmake.sourceDirectory": "${workspaceFolder}/irrigador-firmware"
+  }
 }
