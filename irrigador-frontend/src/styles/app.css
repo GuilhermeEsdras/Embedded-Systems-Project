@@ -13,3 +13,4 @@
 /* Diretiva que controla onde o Tailwind injeta variações responsivas de utilitários. 
 Por padrão, o Tailwind normalmente os anexa ao final de sua folha de estilo. */
 @import url("tailwindcss/screens");
+/* @import url('./custom-screens.css'); */
