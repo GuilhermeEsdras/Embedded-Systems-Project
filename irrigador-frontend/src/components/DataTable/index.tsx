@@ -5,7 +5,9 @@ import { Table } from "flowbite-react";
 
 import { BASE_URL } from "~/api/requests";
 import { IrrigationPage } from "~/types/irrigation";
+import { formatLocalDate } from "~/utils/format";
 
+import LoadingBars from "../LoadingBars";
 import IrrigationPagination from "../Pagination";
 
 interface TableRowProps {
@@ -29,7 +31,7 @@ const TableRow = ({ id, status, data, umidity }: TableRowProps) => {
 };
 
 const DataTable = () => {
-  // const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(true);
   const [activePage, setActivePage] = useState(0);
   const [page, setPage] = useState<IrrigationPage>({
     first: true,
@@ -40,12 +42,12 @@ const DataTable = () => {
   });
 
   useEffect(() => {
-    // setLoading(true);
+    setLoading(true);
     axios
       .get(`${BASE_URL}/status/page?page=${activePage}&size=20&sort=date,desc`)
       .then((response) => {
         setPage(response.data);
-        // setLoading(false);
+        setLoading(false);
       });
   }, [activePage]);
 
@@ -53,7 +55,9 @@ const DataTable = () => {
     setActivePage(index);
   };
 
-  return (
+  return loading ? (
+    <LoadingBars />
+  ) : (
     <>
       <Table hoverable={true}>
         <Table.Head>
@@ -63,14 +67,14 @@ const DataTable = () => {
           <Table.HeadCell>Umidade</Table.HeadCell>
         </Table.Head>
         <Table.Body className="divide-y">
-          <TableRow
+          {/* <TableRow
             key={1}
             data="22/12/2022"
             id={1}
             status="Irrigamento feito com sucesso"
             umidity={50}
-          />
-          {/* {page.content?.map((pageContent) => {
+          /> */}
+          {page.content?.map((pageContent) => {
             return (
               <TableRow
                 key={pageContent.id}
@@ -80,7 +84,7 @@ const DataTable = () => {
                 umidity={pageContent.umitidy}
               />
             );
-          })} */}
+          })}
         </Table.Body>
       </Table>
       <IrrigationPagination page={page} onPageChange={changePage} />

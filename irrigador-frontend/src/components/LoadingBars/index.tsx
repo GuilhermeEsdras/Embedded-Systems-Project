@@ -7,7 +7,7 @@ const LoadingBars = () => {
         height="80"
         width="80"
         radius="9"
-        color="#4fa94d"
+        color="#3b82f6"
         ariaLabel="three-dots-loading"
         wrapperStyle={{}}
         visible={true}
