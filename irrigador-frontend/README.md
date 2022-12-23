@@ -8,6 +8,7 @@
 - Eslint
 - Editorconfig & Prettier
 - Axios
+- TailwindCSS
 
 ## Uso
 
