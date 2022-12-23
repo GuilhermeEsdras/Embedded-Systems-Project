@@ -13,11 +13,6 @@ const MainCard = () => {
 
       <IrrigationForm />
 
-      <div className="grid place-items-center">
-        <h3 className="text-center font-medium">Umidade desejada atual:</h3>
-        <h5>50%</h5>
-      </div>
-
       <hr />
 
       <div className="flex items-center">

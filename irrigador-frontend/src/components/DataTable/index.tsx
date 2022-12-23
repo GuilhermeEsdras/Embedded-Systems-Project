@@ -46,8 +46,12 @@ const DataTable = () => {
     axios
       .get(`${BASE_URL}/status/page?page=${activePage}&size=20&sort=date,desc`)
       .then((response) => {
+        console.log(response.data);
         setPage(response.data);
         setLoading(false);
+      })
+      .catch((response) => {
+        console.log(response);
       });
   }, [activePage]);
 
