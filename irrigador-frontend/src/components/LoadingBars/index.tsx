@@ -1,9 +1,17 @@
-import Loader from "react-loader-spinner";
+import { ThreeDots } from "react-loader-spinner";
 
 const LoadingBars = () => {
   return (
     <div className="flex items-center">
-      <Loader type="ThreeDots" color="#00BFFF" height={80} width={80} />
+      <ThreeDots
+        height="80"
+        width="80"
+        radius="9"
+        color="#4fa94d"
+        ariaLabel="three-dots-loading"
+        wrapperStyle={{}}
+        visible={true}
+      />
       <p>Carregando dados...</p>
     </div>
   );
