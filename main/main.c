@@ -1,9 +1,10 @@
 #include <stdio.h>
-#include "../lib/include/water_level.h"
-#include "../lib/include/soil_moisture.h"
-#include "../lib/include/l_mqtt_client.h"
-#include "../lib/include/rele_control.h"
-#include "../lib/include/utils.h"
+#include <string.h>
+#include "water_level.h"
+#include "soil_moisture.h"
+#include "l_mqtt_client.h"
+#include "rele_control.h"
+#include "utils.h"
 #include "esp_log.h"
 #include "esp_event_base.h"
 #include "freertos/FreeRTOS.h"
@@ -20,17 +21,26 @@ Data* create_data() {
     return data;
 }
 
-int ha_baixa_variacao(int val_default) {
+int ha_baixa_variacao(int porcentagem_default) {
     int umidade_atual = get_soil_moisture();
     delay_s(10);
     int umidade_nova = get_soil_moisture();
     int porcentagem_nova = raw_to_porcentage(umidade_nova, MIN_MOISTURE, MAX_MOISTURE);
-    printf("%d %d %d\n", val_default, umidade_atual, umidade_nova);
-    if (porcentagem_nova > val_default) return 0;
+    printf("%d %d %d\n", porcentagem_default, umidade_atual, umidade_nova);
+    if (porcentagem_nova > porcentagem_default) return 0;
     if (umidade_nova == 0 && umidade_atual == 0) return 1;
     if (umidade_atual >= umidade_nova && (umidade_nova*100/umidade_atual) > 95) return 1;
     if (umidade_atual < umidade_nova && (umidade_atual*100/umidade_nova) > 95) return 1;
     return 0;
+}
+
+void concat(char * msg, char * buffer, int moisture) {
+    strcpy(buffer, "");
+    strcpy(buffer, msg);
+    char buffer1[4];
+    itoa(moisture, buffer1, 10);
+    strcat(buffer, buffer1);
+    printf("%s\n", buffer);
 }
 
 void app_main(void) {
@@ -43,36 +53,59 @@ void app_main(void) {
     configure_adc_soil_moisture();
     configure_rele_control(RELE_PIN);
     mqtt_app_start(data);
-    //setar botão
 
     while (!data -> isConnected) {
         delay_ms(500);
     }
 
-    delay_ms(1500);
-    //while para enquanto o botão estiver ligado continuar jogando água
-    //data -> soilMoisture = 80;
     int hasWater = 1;
+    int primeira_sugada = 1;
+    int begin_irrigamento = 1;
+    int is_umidade_baixa = 0;
+    char buffer[50];
     while (1) {
         if (data -> soilMoisture != -1) {
             printf("water level %d\n", get_water_level());
             if (get_water_level() <= MIN_WATER_LEVEL) {
                 if(hasWater) {
                     hasWater = 0;
-                    envia_msg("IRRIGAMENTO:N;FALTA_AGUA:S", "/topic/status");
+                    concat("IRRIGAMENTO:I;UMIDADE:", buffer, data -> soilMoisture);
+                    envia_msg(buffer, "/topic/status");
                 }
             }
             else {
+                if(primeira_sugada) {
+                    rele_set_level(1);
+                    delay_ms(3200);
+                    rele_set_level(0);
+                    delay_ms(150);
+                    primeira_sugada = 0;
+                }
                 hasWater = 1;
                 printf("defaut moisture %d\n", data -> soilMoisture);
                 printf("porcentagem atual %d\n", raw_to_porcentage(get_soil_moisture(), MIN_MOISTURE, MAX_MOISTURE));
-                if (raw_to_porcentage(get_soil_moisture(), MIN_MOISTURE, MAX_MOISTURE) < (data -> soilMoisture - 5) && 
-                ha_baixa_variacao(data -> soilMoisture + 5)) {
-                    rele_set_level(1);
-                    delay_ms(150);
-                    rele_set_level(0);
-                    delay_ms(150);
+                is_umidade_baixa = raw_to_porcentage(get_soil_moisture(), MIN_MOISTURE, MAX_MOISTURE) < (data -> soilMoisture - 10);
+                if (is_umidade_baixa){
+                    if (ha_baixa_variacao(data -> soilMoisture + 10)) {
+                        if(begin_irrigamento) {
+                            concat("IRRIGAMENTO:S;UMIDADE:", buffer, data -> soilMoisture);
+                            envia_msg(buffer, "/topic/status");
+                            begin_irrigamento = 0;
+                        }
+                        rele_set_level(1);
+                        delay_ms(150);
+                        rele_set_level(0);
+                        delay_ms(150);
+                    }
                 }
+                else {
+                    if(!begin_irrigamento) {
+                        concat("IRRIGAMENTO:F;UMIDADE:", buffer, data -> soilMoisture);
+                        envia_msg(buffer, "/topic/status");
+                    }
+                    begin_irrigamento = 1;   
+                }
+               
             }
         }
         delay_ms(500);
