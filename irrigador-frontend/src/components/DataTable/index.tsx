@@ -1,19 +1,28 @@
 import { useEffect, useState } from "react";
 
 import axios from "axios";
+import { format } from "date-fns";
 import { Table } from "flowbite-react";
 
-import { BASE_URL } from "~/api/requests";
 import { IrrigationPage } from "~/types/irrigation";
 
+import { BASE_URL } from "../../api/requests";
 import IrrigationPagination from "../Pagination";
 
 interface TableRowProps {
   id: number;
   status: string;
   data: string;
-  umidity: number;
+  umidity: string;
 }
+
+export const formatLocalDate = (date: string, pattern: string): string => {
+  const dt = new Date(date);
+  const dtDateOnly = new Date(
+    dt.valueOf() + dt.getTimezoneOffset() * 60 * 1000
+  );
+  return format(dtDateOnly, pattern);
+};
 
 const TableRow = ({ id, status, data, umidity }: TableRowProps) => {
   return (
@@ -41,23 +50,25 @@ const DataTable = () => {
 
   useEffect(() => {
     setLoading(true);
-
-    axios({
-      method: "get",
-      url: `${BASE_URL}/status/page?page=${activePage}&sort=desc`,
-      withCredentials: false,
-      headers: {
-        "Access-Control-Allow-Origin": "*",
-      },
-    })
-      .then((response) => {
-        console.log(response.data);
-        setPage(response.data);
-        setLoading(false);
+    const intervalId = setInterval(() => {
+      axios({
+        method: "get",
+        url: `${BASE_URL}/status/page?page=${activePage}&sort=desc`,
+        withCredentials: false,
+        headers: {
+          "Access-Control-Allow-Origin": "*",
+        },
       })
-      .catch((response) => {
-        console.log(response);
-      });
+        .then((response) => {
+          console.log(response.data);
+          setPage(response.data);
+          setLoading(false);
+        })
+        .catch((response) => {
+          console.log(response);
+        });
+    }, 1000);
+    return () => clearInterval(intervalId);
   }, [activePage]);
 
   const changePage = (index: number) => {
@@ -74,24 +85,25 @@ const DataTable = () => {
           <Table.HeadCell>Umidade</Table.HeadCell>
         </Table.Head>
         <Table.Body className="divide-y">
-          <TableRow
+          {/* <TableRow
             key={1}
             data="22/12/2022"
             id={1}
             status="Irrigamento feito com sucesso"
             umidity={50}
-          />
-          {/* {page.content?.map((pageContent) => {
+          /> */}
+          {page.content?.map((pageContent) => {
+            console.log(pageContent);
             return (
               <TableRow
                 key={pageContent.id}
-                data={formatLocalDate(pageContent.date, "dd/MM/yyy")}
+                data={formatLocalDate(pageContent.timestamp, "dd/MM/yyy HH:mm")}
                 id={pageContent.id}
                 status={pageContent.status}
-                umidity={pageContent.umitidy}
+                umidity={pageContent.umidity}
               />
             );
-          })} */}
+          })}
         </Table.Body>
       </Table>
       <IrrigationPagination page={page} onPageChange={changePage} />

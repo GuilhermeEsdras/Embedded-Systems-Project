@@ -3,6 +3,8 @@ import { useState } from "react";
 import axios from "axios";
 import { Button, Label, TextInput } from "flowbite-react";
 
+import { BASE_URL } from "../../api/requests";
+
 const IrrigationForm = () => {
   const [umidity, setUmidity] = useState<number>();
   const [umidityChosen, setUmidityChosen] = useState<number>();
@@ -18,7 +20,7 @@ const IrrigationForm = () => {
 
     axios({
       method: "post",
-      url: `${import.meta.env.VITE_BACKEND_URL}/status/moisture`,
+      url: `${BASE_URL}/status/moisture`,
       data: data,
       headers: {
         "Content-Type": "application/json",
