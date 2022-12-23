@@ -1,10 +1,10 @@
-# Sistema de Irrigação Automática 💦🪴
+# Sistema de Irrigação Automática 💧🪴
 
 Este é o projeto final da disciplina de Sistemas Embarcadas 2022.2.
 
 ## Sumário
 
-- [Sistema de Irrigação Automática 💦🪴](#sistema-de-irrigação-automática-)
+- [Sistema de Irrigação Automática �🪴](#sistema-de-irrigação-automática-)
   - [Sumário](#sumário)
   - [❕ Descrição](#-descrição)
   - [🔌 Componentes](#-componentes)
