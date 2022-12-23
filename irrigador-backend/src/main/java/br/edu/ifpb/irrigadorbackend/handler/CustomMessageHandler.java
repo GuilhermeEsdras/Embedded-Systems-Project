@@ -18,31 +18,27 @@ public class CustomMessageHandler implements MessageHandler {
 
     @Override
     public void handleMessage(Message<?> message) throws MessagingException {
+        System.out.println(message.getPayload());
         Timestamp timestamp = new Timestamp(System.currentTimeMillis());
         if (message.getPayload().toString().startsWith("IRRIGAMENTO")) {
             String[] payload = message.getPayload().toString().split(";");
             String[] umidityStatus = payload[0].split(":");
+            String[] umidity = payload[1].split(":");
             Status status = new Status();
+            status.setUmidity(umidity[1]);
+            status.setTimestamp(timestamp);
             switch (umidityStatus[1]) {
                 case "S" :
-                    String[] umidity = payload[1].split(":");
-                    status.setUmidity(umidity[1]);
-                    status.setStatus("Irrigamento feito com sucesso!");
+                    status.setStatus("Iniciado processo de irrigamento!");
                     break;
-                case "N":
-                    status.setUmidity(null);
-                    status.setStatus("Falta de água! Reabastecer recipiente.");
+                case "F":
+                    status.setStatus("Finalizado processo de irrigamento!");
                     break;
                 case "I" :
-                    String[] umidity1 = payload[2].split(":");
-                    status.setUmidity(umidity1[1]);
-                    status.setStatus("Irrigamento incompleto! Reabastecer recipiente.");
+                    status.setStatus("Falta de água no reservatório!");
                     break;
             }
-            status.setTimestamp(timestamp);
             statusService.add(status);
-        } else {
-            System.out.println(message.getPayload());
         }
     }
 }

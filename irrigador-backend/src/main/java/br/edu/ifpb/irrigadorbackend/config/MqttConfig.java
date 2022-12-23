@@ -56,7 +56,7 @@ public class MqttConfig {
     public MessageProducer inbound() {
         MqttPahoMessageDrivenChannelAdapter channelAdapter =
                 new MqttPahoMessageDrivenChannelAdapter(
-                        "irrigador-backend-client", mqttPahoClientFactory(), "/topic/umidade");
+                        "irrigador-backend-client", mqttPahoClientFactory(), "/topic/status", "/topic/umidade");
         channelAdapter.setCompletionTimeout(1000);
         channelAdapter.setConverter(new DefaultPahoMessageConverter());
         channelAdapter.setQos(1);
@@ -74,7 +74,7 @@ public class MqttConfig {
     @ServiceActivator(inputChannel = "mqttOutboundChannel")
     public MessageHandler mqttOutbound() {
         MqttPahoMessageHandler messageHandler =
-                new MqttPahoMessageHandler("irrigador-backend-client", mqttPahoClientFactory());
+                new MqttPahoMessageHandler("irrigador-backend-manager-client", mqttPahoClientFactory());
         messageHandler.setAsync(true);
         messageHandler.setDefaultTopic("/topic/umidade");
         return messageHandler;
