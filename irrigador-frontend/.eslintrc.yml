@@ -96,11 +96,6 @@ rules:
   linebreak-style:
     - error
     - unix
-  no-console:
-    - warn
-    - allow:
-        - warn
-        - error
   space-before-function-paren:
     - warn
     - anonymous: never

@@ -2,7 +2,7 @@ import { ThreeDots } from "react-loader-spinner";
 
 const LoadingBars = () => {
   return (
-    <div className="flex items-center">
+    <div className="grid place-items-center">
       <ThreeDots
         height="80"
         width="80"
@@ -12,7 +12,7 @@ const LoadingBars = () => {
         wrapperStyle={{}}
         visible={true}
       />
-      <p>Carregando dados...</p>
+      <p className="text-sm">Carregando dados...</p>
     </div>
   );
 };
