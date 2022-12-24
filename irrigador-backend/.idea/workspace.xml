@@ -4,11 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="db3fcc37-323e-4c37-8a0c-857f6bfe2fd2" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/../components/l_mqtt_client/CMakeLists.txt" beforeDir="false" afterPath="$PROJECT_DIR$/../components/l_mqtt_client/CMakeLists.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../components/utils/CMakeLists.txt" beforeDir="false" afterPath="$PROJECT_DIR$/../components/utils/CMakeLists.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../main/main.c" beforeDir="false" afterPath="$PROJECT_DIR$/../main/main.c" afterDir="false" />
-    </list>
+    <list default="true" id="ab10ae56-2f34-49fe-979f-e7e2cf3ee2fb" name="Changes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
