@@ -2,13 +2,14 @@
 
 Este é o projeto final da disciplina de Sistemas Embarcadas 2022.2.
 
-Apresentação YouTube: https://youtu.be/aDN4pBqXoVA
+Apresentação YouTube: <https://youtu.be/aDN4pBqXoVA>
 
 ## Sumário
 
 - [Sistema de Irrigação Automática 💧🪴](#sistema-de-irrigação-automática-)
   - [Sumário](#sumário)
   - [❕ Descrição](#-descrição)
+  - [🚀 Como montar e executar o sistema](#-como-montar-e-executar-o-sistema)
   - [🔌 Componentes](#-componentes)
     - [Microcontrolador](#microcontrolador)
     - [Sensor de Umidade do Solo Higrômetro](#sensor-de-umidade-do-solo-higrômetro)
@@ -16,15 +17,30 @@ Apresentação YouTube: https://youtu.be/aDN4pBqXoVA
     - [Outros componentes](#outros-componentes)
   - [🧩 Diagrama de Blocos](#-diagrama-de-blocos)
   - [🔄 Fluxograma do Firmware](#-fluxograma-do-firmware)
+
   - [🖼️ Preview do Front End](#️-preview-do-front-end)
-  - [👣 Imagens das Etapas de Desenvolvimento](#-imagens-das-etapas-de-desenvolvimento)
+  - [👣 Imagens do sistema](#-imagens-do-sistema)
   - [👥 Participantes](#-participantes)
 
 ---
 
 ## ❕ Descrição
 
-Um sistema de irrigação automático para plantas.
+Um sistema de irrigação automático para plantas. Em seu hardware, possui um ESP-32, juntamente com alguns componentes, para fazer leitura e controle da umidade de solo. Por sua vez, o ESP-32 se comunica com um Back End, mandando informações sobre o processo de irrigamente, e recebendo a porcentagem ideal de umidade pra irrigar o solo. A comunição é feita via MQTT utilizando RabbitMQ como broker. As informações recebidas pelo Back End são mostradas em Front End via navegador, será mostrado um histórico, e também, será possível enviar alguma umidade para o ESP-32 começar o irrigamento.
+
+## 🚀 Como montar e executar o sistema
+
+A parte de software da aplicação é divida em 3 partes: firmware do ESP-32, Front End e Back End com banco de dados H2 e RabbitMQ.
+
+Sobre o firware do ESP-32, ele foi feito usando o ESP-IDF com a linguagem de programação C com CMake, um framework da Espressif para desenvolvimento de aplicações para dispositivos da família ESP-32. Para "buildar" o projeto e rodar ele no ESP-32, basta seguir os passos na [documentação Espressif](https://docs.espressif.com/projects/esp-idf/en/latest/esp32/get-started/index.html#manual-installation).
+
+O Front End do sistema foi feito com React, ViteJS, Tailwind e algumas outras bibliotecas Javascript. Para rodar o Front é necessário ter o NodeJS instalado na máquina. Após a instalação, basta entrar na pasta do projeto, abrir um terminal e digitar `yarn dev:host`.
+
+Para o Back End, é necessário ter Java 17 e Gradle instalados. Feito isso, basta ir na pasta do projeto, abrir um terminal e digitar `./gradlew bootRun`. Além do uso do Java, foi usado alguns frameworks do ecossistema Spring, como Spring Boot e Spring Data. No Back, também configuramos e usamos o banco de dados SQL H2, que é um banco _in-memory_ usado geralmente para testes em aplicações Java. Nesse banco, ficará guarado as informações do irrigamento mandadas pelo ESP-32 pelo MQTT. Esse banco foi usado apenas para mostrar como ocorre a persistência dos dados e ajudar no desenvolvimento.
+
+Além de configurar Front e Back, é necessário configurar o RabbitMQ, que é um broker AMQP, mas que possui suporte também para MQTT. Uma forma de iniciar o RabbitMQ é usando Docker, e fazemos isso com `docker run --name rabbitmq-mqtt -p 1883:1883 -p 5672:5672 -p 15672:15672 -p 15675:15675 -d rabbitmq:3.10-management`, feito isso, é necessário "entrar" no conteiner do RabbitMQ e por o plugin de suporte ao MQTT, e isso pode ser feito seguindo o [tutorial](https://www.rabbitmq.com/mqtt.html).
+
+Voltando ao contexto do firmware do ESP-32, é necessário por bssid e senha do WiFi para que ele se comunique via MQTT, e também por IP, porta, usuário e senha de acesso ao RabbitMQ.
 
 ## 🔌 Componentes
 
@@ -74,7 +90,7 @@ A Mini Bomba de Água RS385 opera com tensão entre 9V a 15V e permite elevaçã
   <img src="Assets/Images/frontend-ss.png" alt="Front End Screenshot" />
 </center>
 
-## 👣 Imagens das Etapas de Desenvolvimento
+## 👣 Imagens do sistema
 
 <center>
   <img src="Assets/Images/foto1.jpg" alt="Desenvolvimento 1" width="600"/>
