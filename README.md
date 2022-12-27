@@ -14,10 +14,10 @@ Apresentação YouTube: <https://youtu.be/aDN4pBqXoVA>
     - [Microcontrolador](#microcontrolador)
     - [Sensor de Umidade do Solo Higrômetro](#sensor-de-umidade-do-solo-higrômetro)
     - [Mini Bomba de Água](#mini-bomba-de-água)
+    - [Sensor de nível de água](#sensor-de-nível-de-água)
     - [Outros componentes](#outros-componentes)
   - [🧩 Diagrama de Blocos](#-diagrama-de-blocos)
   - [🔄 Fluxograma do Firmware](#-fluxograma-do-firmware)
-
   - [🖼️ Preview do Front End](#️-preview-do-front-end)
   - [👣 Imagens do sistema](#-imagens-do-sistema)
   - [👥 Participantes](#-participantes)
@@ -68,11 +68,40 @@ O mesmo consiste em 2 partes: uma sonda que entra em contato com o solo, e um pe
 
 ### Mini Bomba de Água
 
-A Mini Bomba de Água RS385 opera com tensão entre 9V a 15V e permite elevação máxima de até 3 metros e altura de aspiração de até 2 metros.
+<center>
+  <img src="Assets/Images/bomba.jpg" alt="Bomba de água" width="300"/>
+</center>
 
-### Outros componentes
+A Mini Bomba de Água RS385 opera com tensão entre 9V a 15V e permite elevação máxima de até 3 metros e altura de aspiração de até 2 metros. [Datasheet](Docs/Datasheets/RS-385SH.pdf)
 
--
+### Sensor de nível de água
+
+<center>
+  <img src="Assets/Images/sensor-nivel-de-agua.png" alt="Sensor de nível de água" width="300"/>
+</center>
+
+Este sensor pode ser amplamente utilizado na detecção de chuva, de nível da água, etc. Em nossos testes alimentando com 5v o valor da saída variou entre próximo a 2v ( apenas a ponta submersa) até 3,50V ( com toda a região sensível submersa). A saída é "zero" com a total ausência de água. Pode ser usado em uma porta digital já que a maioria dos microcontroladores reconhece essa faixa 2 a 3,5V como nível alto. Quando houver água a saída irá para nível alto.
+
+Pode ser usado para leitura através de uma porta analógica (ADC) para, por exemplo, detectar a variação de nível nos 4cm da área sensível.
+
+Não foi encontrado datasheet desse componente, mas segue abaixo suas especificações:
+
+- Tensão de funcionamento: 5V;
+- Corrente de trabalho: <20mA;
+- Baixo consumo de energia;
+- Saída: Analógica;
+- Sinal de tensão de saída: 0 ~ 3.5V;
+- Área de detecção: 40mm × 16mm;
+- Tamanho: 65mm × 20mm;
+- Alta Sensibilidade. Basta uma gota para alterar a saída;
+
+### Módulo Relé 2 Canais 5V com Optacoplador
+
+<center>
+  <img src="Assets/Images/rele.png" alt="Módulo Relé 2 Canais 5V com Optacoplador" width="300"/>
+</center>
+
+Este Módulo Relé permite uma integração com uma ampla gama de microcontroladores como Arduino, AVR, PIC, ARM. A partir das saídas digitais pode-se, através do relé, controlar cargas maiores e dispositivos como motores AC ou DC, eletroímãs, solenóides e lâmpadas incandescentes. Este módulo tem dois canais sendo assim concebido para ser integrado para controlar até 2 relés. O módulo é equipado com um relé de alta qualidade, com carga nominal 10A/250VAC, 10A/125VAC, 10A/30VDC. Cada canal possui um LED para indicar o estado da saída do relé. [Datasheet](Docs/Datasheets/)
 
 ## 🧩 Diagrama de Blocos
 
