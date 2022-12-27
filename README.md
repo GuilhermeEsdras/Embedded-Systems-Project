@@ -15,7 +15,6 @@ Apresentação YouTube: <https://youtu.be/aDN4pBqXoVA>
     - [Sensor de Umidade do Solo Higrômetro](#sensor-de-umidade-do-solo-higrômetro)
     - [Mini Bomba de Água](#mini-bomba-de-água)
     - [Sensor de nível de água](#sensor-de-nível-de-água)
-    - [Outros componentes](#outros-componentes)
   - [🧩 Diagrama de Blocos](#-diagrama-de-blocos)
   - [🔄 Fluxograma do Firmware](#-fluxograma-do-firmware)
   - [🖼️ Preview do Front End](#️-preview-do-front-end)
